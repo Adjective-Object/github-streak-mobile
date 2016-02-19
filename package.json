@@ -1,0 +1,12 @@
+{
+  "name": "streaker",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start-android": "sudo adb start-server && adb reverse tcp:8081 tcp:8081 && npm start",
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react-native": "^0.20.0"
+  }
+}
