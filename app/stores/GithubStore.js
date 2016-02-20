@@ -14,7 +14,7 @@ export { GithubStates as GithubStates };
 let GithubStore = Reflux.createStore({
   listenables: GithubActions,
  
-  user: 'adjective-object',
+  user: 'yariza',
   commits: null,
   state: GithubStates.Uninitialized,
 
@@ -22,7 +22,7 @@ let GithubStore = Reflux.createStore({
     return {
       user: this.user,
       commits: this.commits,
-      state: this.state,
+      state: GithubStates.Uninitialized,
     };
   },
 
@@ -35,11 +35,16 @@ let GithubStore = Reflux.createStore({
 
     getCommitGraph(this.user, (updatedCommitGraph) => {
       this.commits = updatedCommitGraph;
+      let exitstate = (updatedCommitGraph == null 
+        ? GithubStates.Failed 
+        : GithubStates.Fetched);
+
       this.trigger({
         user: this.user,
         commits: this.commits,
-        state: GithubStates.Fetched,
+        state: exitstate,
       });
+
     });
   }
 

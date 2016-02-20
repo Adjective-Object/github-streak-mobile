@@ -48,9 +48,12 @@ let app = React.createClass({
       let numDays = this.state.github.commits.length;
       let numCommits = this.state.github.commits.reduce((a, b) => a + b, 0);
       let numCommitsToday = this.state.github.commits[this.state.github.commits.length - 1];
+      let commitStyle = ((numCommitsToday == 0)
+          ? [styles.linetext, {color: '#E23333'}]
+          : [styles.linetext]);
 
       githubTextElem = (
-        <Text style={styles.linetext}>
+        <Text style={commitStyle}>
           Commits in last {numDays} days: {numCommits} {"\n"}
           Commits today: {numCommitsToday}
         </Text>
@@ -79,12 +82,16 @@ let app = React.createClass({
     }
 
     let statusTextElem = (
-      <Text style = {styles.statusText}
-        color={statusColor}>
+      <Text style = {[
+          styles.statusText,
+          {color: statusColor}]}>
         {statusText} 
       </Text>);
 
-    let textElem = (githubTextElem == null) ? statusTextElem : githubTextElem;
+    let textElem = (
+      githubTextElem == null
+        ? statusTextElem
+        : githubTextElem);
 
     return (
       <View style={styles.appWrapper}>
