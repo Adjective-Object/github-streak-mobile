@@ -29,7 +29,7 @@ let GithubStore = Reflux.createStore({
   onUpdateCommitGraph() {
     this.trigger({
       user: this.user,
-      commits: this.commits,
+      commits: null,
       state: GithubStates.Fetching
     });
 

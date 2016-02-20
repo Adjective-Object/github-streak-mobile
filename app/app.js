@@ -1,7 +1,8 @@
 import React, {
   Navigator,
   View, Text,
-  StyleSheet
+  StyleSheet,
+  TouchableNativeFeedback,
 } from 'react-native';
 import Reflux from 'reflux';
 
@@ -10,11 +11,14 @@ import GithubStore, {GithubStates} from './stores/GithubStore';
 
 
 const styles = StyleSheet.create({
+  appWrapper: {
+    backgroundColor: '#F5FCFF',
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   title: {
     fontSize: 20,
@@ -38,8 +42,6 @@ let app = React.createClass({
   },
 
   render() {
-    console.log(JSON.stringify(this.state));
-
     // set the text if the commit array has been populated
     let githubTextElem = null;
     if (this.state.github.commits != null) {
@@ -85,11 +87,18 @@ let app = React.createClass({
     let textElem = (githubTextElem == null) ? statusTextElem : githubTextElem;
 
     return (
-      <View style = {styles.container}>
-        <Text style={styles.title}>
-          {this.state.github.user}
-        </Text>
-        {textElem}
+      <View style={styles.appWrapper}>
+        <TouchableNativeFeedback
+            onPress={GithubActions.updateCommitGraph}>
+
+          <View style={styles.container}>
+            <Text style={styles.title}>
+              {this.state.github.user}
+            </Text>
+            {textElem}
+          </View>
+
+        </TouchableNativeFeedback>
       </View>
     );
   }
