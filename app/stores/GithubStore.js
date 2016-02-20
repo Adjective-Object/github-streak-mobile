@@ -14,7 +14,7 @@ export { GithubStates as GithubStates };
 let GithubStore = Reflux.createStore({
   listenables: GithubActions,
  
-  user: 'yariza',
+  user: 'adjective-object',
   commits: null,
   state: GithubStates.Uninitialized,
 

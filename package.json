@@ -9,5 +9,8 @@
   "dependencies": {
     "react-native": "^0.20.0",
     "reflux": "^0.3.0"
+  },
+  "devDependencies": {
+    "react-native-cli": "^0.1.10"
   }
 }
