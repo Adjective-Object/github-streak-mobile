@@ -13,18 +13,19 @@ const styles = StyleSheet.create({
   flex: 1,
   flexDirection: 'column',
   padding: 16,
+  paddingLeft: 32,
+  paddingRight: 32,
   alignItems: 'stretch',
   justifyContent: 'space-around',
-  backgroundColor: '#FFFF00'
   },
   commitGraph: {
   flex: 1.5,
-  backgroundColor: '#FF22aa',
+  borderWidth: 1,
+  borderColor: '#FF22aa',
   },
   commitTextWrap: {
   flex: 1,
   flexDirection: 'row',
-  backgroundColor: '#FF44FF',
   },
   commitTimeLabel: {
   alignSelf: 'center',
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
   textAlign: 'center',
   fontSize: 30,
   flex: 0.35,
-  backgroundColor: '#FFFFFF'
   },
 });
 

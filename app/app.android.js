@@ -7,7 +7,6 @@ import React, {
 import Reflux from 'reflux';
 
 import GithubActions from './actions/GithubActions';
-import UIActions from './actions/UIActions';
 
 import ProfileView from './components/ProfileView';
 import CommitHistoryView from './components/CommitHistoryView';
@@ -26,12 +25,10 @@ let app = React.createClass({
 
   render() {
     return (
-      <TouchableNativeFeedback onPress={UIActions.blur()}>
       <View style={styles.profileView} >
         <ProfileView ref='profileView' />
         <CommitHistoryView />
       </View>
-      </TouchableNativeFeedback>
     );
   }
 

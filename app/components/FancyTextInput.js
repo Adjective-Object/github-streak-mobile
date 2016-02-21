@@ -31,7 +31,6 @@ const sharedStyles = StyleSheet.create({
 // styles for when not selected
 const nonSelectedStyles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#aaaaEE',
   },
   fancyTextStyle: {
     color: '#222222',
@@ -41,7 +40,6 @@ const nonSelectedStyles = StyleSheet.create({
 // styles for when selected
 const selectedStyles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#aaEEaa',
   },
   fancyTextStyle: {
     color: '#222222',
@@ -65,9 +63,11 @@ let FancyTextInput = React.createClass({
 
   _submitEditing() {
     this.refs.textIn.blur();
-    this.setState({disabled: true});
-    if (this.props.onSubmitEditing) {
-      this.props.onSubmitEditing(this.state.value);
+    if (this.state.value) {
+      this.setState({disabled: true});
+      if (this.props.onSubmitEditing) {
+        this.props.onSubmitEditing(this.state.value);
+      }
     }
   },
 
@@ -75,14 +75,18 @@ let FancyTextInput = React.createClass({
     this.setState({selected: true});
     Animated.timing(
       this.state.focusInterp,
-      { toValue: 1 }).start();
+      { toValue: 1,
+        duration: 0.2,
+      }).start();
   },
   
   _onBlur() {
     this.setState({selected: false});
     Animated.timing(
       this.state.focusInterp,
-      { toValue: 0 }).start();
+      { toValue: 0,
+        duration: 0.2,
+      }).start();
   },
 
   render() {
