@@ -1,8 +1,8 @@
 import Reflux from 'reflux';
 
 let userActions = Reflux.createActions([
+    'changeUser',
     'updateCommitGraph',
-    'changeUser'
 ]);
 
 export default userActions;

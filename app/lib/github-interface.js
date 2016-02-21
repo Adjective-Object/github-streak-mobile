@@ -1,3 +1,4 @@
+import { token } from '../secrets';
 
 function githubSVGToCommitArray(svg_string) {
   try {
@@ -16,15 +17,43 @@ function githubSVGToCommitArray(svg_string) {
   }
 }
 
-export function getCommitGraph(username, callback) {
-  fetch('https://github.com/users/' + username + '/contributions')
-    .then((response) => response.text())
-    .then((responseText) => {
-      callback(githubSVGToCommitArray(responseText));
-    })
-    .catch((error) => {
-      console.log(error);
-      callback(null)
-    });
+export function getCommitGraph(username) {
+  return new Promise((resolve, reject) => {
+    fetch('https://github.com/users/' + username + '/contributions')
+      .then((response) => response.text())
+      .then((responseText) => {
+        resolve(githubSVGToCommitArray(responseText));
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
+export function getUserMetadata(username) {
+  return new Promise((resolve, reject) => {
+    console.log(token, username);
+
+    var headers = new Headers({
+      'Authorization': 'token ' + token
+    });
+
+    fetch(new Request(
+          'https://api.github.com/users/' + username,
+          {headers: headers}
+      ))
+      .then((response) => response.text())
+      .then((responseText) => {
+        console.log(responseText);
+        let apiResponse = JSON.parse(responseText);
+        if (apiResponse.login !== undefined) {
+          resolve(apiResponse);
+        } else {
+          reject(apiResponse);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
