@@ -2,6 +2,7 @@ import React, {
   Navigator,
   View, Text,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 import Reflux from 'reflux';
 
@@ -94,13 +95,16 @@ let app = React.createClass({
 
     return (
       <View style={styles.appWrapper}>
+        <TouchableOpacity
+          onPress={GithubActions.updateCommitGraph}
+          style={styles.appWrapper}>
           <View style={styles.container}>
             <Text style={styles.title}>
               {this.state.github.user}
             </Text>
             {textElem}
           </View>
-
+        </TouchableOpacity>
       </View>
     );
   }
