@@ -39,9 +39,11 @@ let CommitHistoryStore = Reflux.createStore({
     };
   },
 
-  onUpdateCommitGraph(userName, invalidateCache=false) {
+  onUpdateCommitGraph(userName=null, invalidateCache=false) {
     console.log("updaing commit graph");
-    this.userName = userName
+    if(userName != null) {
+      this.userName = userName
+    }
 
     // Clear the cache when no longer valid
     // (for example, when the username has changed)
@@ -57,7 +59,7 @@ let CommitHistoryStore = Reflux.createStore({
     });
 
     console.log("updating commit history to user", UserStore.userName);
-    getCommitGraph(userName)
+    getCommitGraph(this.userName)
       .then((updatedCommitGraph) => {
         console.log("new commit graph:", updatedCommitGraph);
         this.commits = updatedCommitGraph;

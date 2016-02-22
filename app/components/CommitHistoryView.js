@@ -1,9 +1,11 @@
 import React, {
   View, Text,
+  TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native';
 import Reflux from 'reflux';
 import CommitHistoryStore from '../stores/CommitHistoryStore';
+import GithubActions from '../actions/GithubActions'
 import { NetworkStates } from '../constants';
 
 import CommitHistoryGraph from './CommitHistoryGraph';
@@ -93,9 +95,12 @@ let CommitHistoryView = React.createClass({
           <Text style={styles.commitTimeLabel}>
             Commits Today:
           </Text>
-          <Text style={styles.commitTime}>
-            {numCommitsItem}
-          </Text>
+          <TouchableWithoutFeedback
+            onPress={() => GithubActions.updateCommitGraph()}>
+            <Text style={styles.commitTime}>
+              {numCommitsItem}
+            </Text>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );

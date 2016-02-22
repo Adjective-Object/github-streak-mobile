@@ -18,8 +18,10 @@ function githubSVGToCommitArray(svg_string) {
 }
 
 export function getCommitGraph(username) {
+  let url = 'https://github.com/users/' + username + '/contributions';
   return new Promise((resolve, reject) => {
-    fetch('https://github.com/users/' + username + '/contributions')
+    console.log(url);
+    fetch(url)
       .then((response) => response.text())
       .then((responseText) => {
         resolve(githubSVGToCommitArray(responseText));
