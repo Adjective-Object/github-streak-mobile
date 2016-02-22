@@ -15,6 +15,7 @@ const sharedStyles = StyleSheet.create({
   },
   fancyTextStyle: {
     width: 200,
+    height: 50,
     textAlign: 'center',
     fontSize: 20,
   },
@@ -112,10 +113,12 @@ let FancyTextInput = React.createClass({
             : this.state.value}
 
           underlineColorAndroid={'rgba(0,0,0,0)'}
-          placeholderText={
+          placeholder={
             (this.props.fixedValue)
               ? this.props.fixedValue
-              : "tap to set text" }/>
+              : "tap to set text" }
+          selectTextOnFocus={true}
+          />
       </View>
     );
   }
