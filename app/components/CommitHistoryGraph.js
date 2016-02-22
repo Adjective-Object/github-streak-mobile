@@ -1,6 +1,7 @@
 import  React, {
   ScrollView, View, Text,
   StyleSheet,
+  UIManager,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -91,6 +92,7 @@ let CommitHistoryGraph = React.createClass({
 
       return (
         <ScrollView
+          ref={ (ref) => { this._scrollView = ref; }}
           style={[styles.wrap, this.props.style]}
           contentContainerStyle={styles.wrapContentContainer}
           horizontal={true} >
@@ -108,6 +110,24 @@ let CommitHistoryGraph = React.createClass({
       );
 
     }
+  },
+
+  componentDidUpdate() {
+    setTimeout(this.measureScrollView)
+  },
+
+  measureScrollView() {
+    UIManager.measure(
+      React.findNodeHandle(this._scrollView),
+      (scrollx, scrolly, scrollWidth, scrollheight, scrollpx, scrollpy)=> {
+        UIManager.measure(
+          this._scrollView.getInnerViewNode(),
+          (ox, oy, width, height, px, py) => {
+            this._scrollView.scrollTo({x: width - scrollWidth, animated: false})
+          }
+        )
+      }
+    );
   }
 });
 
