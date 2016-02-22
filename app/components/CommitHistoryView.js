@@ -1,12 +1,12 @@
 import React, {
-  Navigator,
   View, Text,
   StyleSheet,
-  TouchableNativeFeedback,
 } from 'react-native';
 import Reflux from 'reflux';
 import CommitHistoryStore from '../stores/CommitHistoryStore';
 import { NetworkStates } from '../constants';
+
+import CommitHistoryGraph from './CommitHistoryGraph';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,9 +19,7 @@ const styles = StyleSheet.create({
   justifyContent: 'space-around',
   },
   commitGraph: {
-  flex: 1.5,
-  borderWidth: 1,
-  borderColor: '#FF22aa',
+    flex: 1.5,
   },
   commitTextWrap: {
   flex: 1,
@@ -86,8 +84,10 @@ let CommitHistoryView = React.createClass({
 
     return (
       <View style={styles.container}>
-        <View style={styles.commitGraph}>
-        </View>
+        <CommitHistoryGraph 
+          commits={commits}
+          style={styles.commitGraph}
+          />
 
         <View style={styles.commitTextWrap}>
           <Text style={styles.commitTimeLabel}>
