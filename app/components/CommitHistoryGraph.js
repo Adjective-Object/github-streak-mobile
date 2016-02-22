@@ -78,8 +78,13 @@ function createBar(index, numCommits, maxCommits) {
 let CommitHistoryGraph = React.createClass({
   render() {
     if (this.props.commits != null) {
-      let maxCommits = Math.max(10,
-          Math.max.apply(this.props.commits));
+      var numCommitDays = this.props.commits.reduce(
+          (a, b) => b > 0 ? a + 1 : a, 0)
+      var avgCommitDay = this.props.commits.reduce((a, b) => a + b) / numCommitDays
+      let maxCommits = Math.max(10, 3.5 * avgCommitDay );
+
+      console.log(avgCommitDay);
+      console.log(maxCommits);
         
       let bars = this.props.commits.map(
           (commits, index) => createBar(index, commits, maxCommits))
