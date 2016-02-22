@@ -1,3 +1,4 @@
+import {AsyncStorage} from 'react-native';
 import Reflux from 'reflux';
 
 import GithubActions from '../actions/GithubActions';
@@ -14,9 +15,26 @@ let CommitHistoryStore = Reflux.createStore({
   userName: null,
 
   getInitialState() {
-    //TODO load from Async Storage
+    // load 'commits' and 'userName' from AsyncStorage
+    AsyncStorage.getItem('commitHistory')
+      .then((commitHistory) => {
+        if (commitHistory) {
+          commitHistory = JSON.parse(commitHistory);
+          this.commits = commitHistory.commits;
+          this.userName = commitHistory.userName;
+          this.trigger({
+            commits: this.commits,
+            state: NetworkStates.Fetched,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error fetching commitHistory from asyncStorage");
+        console.log(error);
+      });
+
     return {
-      commits: this.commits,
+      commits: null,
       state: NetworkStates.Uninitialized,
     };
   },
@@ -43,6 +61,12 @@ let CommitHistoryStore = Reflux.createStore({
       .then((updatedCommitGraph) => {
         console.log("new commit graph:", updatedCommitGraph);
         this.commits = updatedCommitGraph;
+
+        AsyncStorage.setItem("commitHistory", JSON.stringify({
+          userName: this.userName,
+          commits: this.commits,
+        }));
+
         this.trigger({
           commits: this.commits,
           state: NetworkStates.Fetched,

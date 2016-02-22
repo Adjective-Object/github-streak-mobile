@@ -53,7 +53,7 @@ let FancyTextInput = React.createClass({
     return {
       value: null,
       selected: false,
-      focusInterp: new Animated.Value(0),
+      disabled: false,
     }
   },
 
@@ -64,6 +64,7 @@ let FancyTextInput = React.createClass({
   _submitEditing() {
     this.refs.textIn.blur();
     if (this.state.value) {
+      // optimistically disable this text field
       this.setState({disabled: true});
       if (this.props.onSubmitEditing) {
         this.props.onSubmitEditing(this.state.value);
@@ -73,20 +74,10 @@ let FancyTextInput = React.createClass({
 
   _onFocus() {
     this.setState({selected: true});
-    Animated.timing(
-      this.state.focusInterp,
-      { toValue: 1,
-        duration: 0.2,
-      }).start();
   },
   
   _onBlur() {
     this.setState({selected: false});
-    Animated.timing(
-      this.state.focusInterp,
-      { toValue: 0,
-        duration: 0.2,
-      }).start();
   },
 
   render() {
@@ -101,31 +92,14 @@ let FancyTextInput = React.createClass({
           fetchStyle("wrapper"), 
           {opacity: (this.state.disabled || this.props.disabled) ? 0.3 : 1}
         ]}>
-        <Animated.Text style={[
-            fetchStyle("placeholderText"),
-            { opacity: (this.state.value) 
-                ? 0
-                : this.state.focusInterp.interpolate({
-                  inputRange: [0.0, 1.0],
-                  outputRange: [1.0, 0.0]}),
-              transform: [
-                {scale: this.state.focusInterp.interpolate({
-                  inputRange: [0.0, 1.0],
-                  outputRange: [1.0, 0.0]
-                })}],
-            },
-          ]}>
-          [ placeholder ]
-        </Animated.Text>
-
         <TextInput
           ref = "textIn"
           style={[
-            activeStyle.fancyTextStyle,
-            sharedStyles.fancyTextStyle,
+            fetchStyle("fancyTextStyle"),
             this.props.style,
             {color: this.props.error ? '#FF2222' : null}
           ]}
+
           multiline={false}
           onSubmitEditing={() => this._submitEditing(this.state.value)}
 
@@ -137,7 +111,11 @@ let FancyTextInput = React.createClass({
             ? this.props.fixedValue
             : this.state.value}
 
-          underlineColorAndroid={'rgba(0,0,0,0)'} />
+          underlineColorAndroid={'rgba(0,0,0,0)'}
+          placeholderText={
+            (this.props.fixedValue)
+              ? this.props.fixedValue
+              : "tap to set text" }/>
       </View>
     );
   }

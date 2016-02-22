@@ -1,3 +1,4 @@
+import {AsyncStorage} from 'react-native';
 import Reflux from 'reflux';
 import GithubActions from '../actions/GithubActions';
 import {NetworkStates} from '../constants.js';
@@ -12,7 +13,25 @@ let UserStore = Reflux.createStore({
   userName: null,
 
   getInitialState() {
-    //TODO load from Async Storage
+    // load 'commits' and 'userName' from AsyncStorage
+    AsyncStorage.getItem('userInfo')
+      .then((userInfo) => {
+        if (userInfo) {
+          userInfo = JSON.parse(userInfo);
+          this.userName = userInfo.userName;
+          this.user = userInfo.user;
+          this.trigger({
+            user: userInfo.user,
+            userName: userInfo.userName,
+            state: NetworkStates.Fetched,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error fetching userInfo from asyncStorage");
+        console.log(error);
+      });
+
     return {
       user: this.user,
       userName: this.userName,
@@ -36,6 +55,11 @@ let UserStore = Reflux.createStore({
         console.log("fetched user", newUserName);
         this.userName = newUserName;
         this.user = user;
+
+        AsyncStorage.setItem("userInfo", JSON.stringify({
+          userName: this.userName,
+          user: this.user,
+        }));
 
         this.trigger({
           user: this.user,
