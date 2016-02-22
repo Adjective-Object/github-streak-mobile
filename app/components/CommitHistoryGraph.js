@@ -113,7 +113,9 @@ let CommitHistoryGraph = React.createClass({
   },
 
   componentDidUpdate() {
-    setTimeout(this.measureScrollView)
+    if (this._scrollView) {
+      setTimeout(this.measureScrollView)
+    }
   },
 
   measureScrollView() {
