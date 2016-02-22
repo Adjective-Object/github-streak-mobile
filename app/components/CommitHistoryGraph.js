@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   barComplementText: {
-    fontSize: 8,
+    fontSize: 10,
     textAlign: 'center',
     alignSelf: 'stretch',
   },
