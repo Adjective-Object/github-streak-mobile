@@ -118,6 +118,8 @@ let FancyTextInput = React.createClass({
               ? this.props.fixedValue
               : "tap to set text" }
           selectTextOnFocus={true}
+          autoCorrect={false}
+          autoCapitalize={'none'}
           />
       </View>
     );
