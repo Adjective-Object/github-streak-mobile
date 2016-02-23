@@ -79,6 +79,12 @@ function createBar(index, numCommits, maxCommits) {
 
 
 let CommitHistoryGraph = React.createClass({
+  getInitialState() {
+    return {
+      hidden: true
+    }
+  },
+
   render() {
     if (this.props.commits != null) {
       var numCommitDays = this.props.commits.reduce(
@@ -95,7 +101,7 @@ let CommitHistoryGraph = React.createClass({
       return (
         <ScrollView
           ref={ (ref) => { this._scrollView = ref; }}
-          style={[styles.wrap, this.props.style]}
+          style={[styles.wrap, this.props.style, { opacity: (this.state.hidden) ? 0.0 : 1.0 }]}
           contentContainerStyle={styles.wrapContentContainer}
           horizontal={true} >
           {bars}
@@ -114,6 +120,10 @@ let CommitHistoryGraph = React.createClass({
     }
   },
 
+  componentWillReceiveProps() {
+    this.setState({ hidden: true });
+  },
+
   componentDidUpdate() {
     if (this._scrollView) {
       setTimeout(this.measureScrollView)
@@ -128,6 +138,11 @@ let CommitHistoryGraph = React.createClass({
           this._scrollView.getInnerViewNode(),
           (ox, oy, width, height, px, py) => {
             this._scrollView.scrollTo({x: width - scrollWidth, animated: false})
+            if (this.state.hidden) {
+              setTimeout(() => {
+                this.setState({ hidden: false })
+              });
+            }
           }
         )
       }
