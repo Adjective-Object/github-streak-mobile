@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'stretch',
     paddingBottom: 6,
+    paddingTop: 10,
   },
   barComplementText: {
     fontSize: 10,
@@ -36,7 +37,8 @@ const styles = StyleSheet.create({
   bar: {
     width: 16,
     borderRadius: 8,
-    backgroundColor: '#de553e',
+    backgroundColor: '#487fb7',
+    paddingBottom: 16,
   },
   loadingView: {
     flexDirection: 'column',
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
 });
 
 function createBar(index, numCommits, maxCommits) {
-  let percent = numCommits / maxCommits;
+  let percent = Math.max(0, numCommits - 1) / maxCommits;
   if (numCommits > 0) {
     return (
       <View 
