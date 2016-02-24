@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 });
 
 function createBar(index, numCommits, maxCommits) {
-  let percent = Math.max(0, numCommits - 1) / maxCommits;
+  let percent = Math.max(0, numCommits - 1) / Math.max(1, maxCommits - 1);
   if (numCommits > 0) {
     return (
       <View 

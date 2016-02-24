@@ -62,6 +62,7 @@ let CommitHistoryView = React.createClass({
 
     // style the commits item based on the network status
     let numCommitsItem;
+    let colorStyle = (numcommitsToday == 0) ? {color: '#FF0000'}, {};
     switch(commitStatus){
       case NetworkStates.Failed:
         numCommitsItem = (
@@ -71,14 +72,14 @@ let CommitHistoryView = React.createClass({
         break;
       case NetworkStates.Fetching:
         numCommitsItem = (
-          <Text style={[styles.commitTime, {opacity: 0.5}]}>
+          <Text style={[styles.commitTime, colorStyle, {opacity: 0.5}]}>
             ...
           </Text>);
         break;
       case NetworkStates.Fetched:
       default:
         numCommitsItem = (
-          <Text style={styles.commitTime}>
+          <Text style={[styles.commitTime, colorStyle]}>
             {numCommitsToday}
           </Text>);
         break;
@@ -97,9 +98,7 @@ let CommitHistoryView = React.createClass({
           </Text>
           <TouchableWithoutFeedback
             onPress={() => GithubActions.updateCommitGraph()}>
-            <Text style={styles.commitTime}>
-              {numCommitsItem}
-            </Text>
+            {numCommitsItem}
           </TouchableWithoutFeedback>
         </View>
       </View>
