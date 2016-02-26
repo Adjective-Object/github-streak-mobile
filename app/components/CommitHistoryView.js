@@ -62,7 +62,7 @@ let CommitHistoryView = React.createClass({
 
     // style the commits item based on the network status
     let numCommitsItem;
-    let colorStyle = (numcommitsToday == 0) ? {color: '#FF0000'}, {};
+    let colorStyle = (numCommitsToday == 0) ? {color: '#FF0000'} : {};
     switch(commitStatus){
       case NetworkStates.Failed:
         numCommitsItem = (
