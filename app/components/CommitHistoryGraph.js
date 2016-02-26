@@ -3,6 +3,7 @@ import  React, {
   StyleSheet,
   UIManager,
 } from 'react-native';
+import { NetworkStates } from '../constants.js';
 
 const styles = StyleSheet.create({
   wrap: {
@@ -92,16 +93,18 @@ let CommitHistoryGraph = React.createClass({
       var avgCommitDay = this.props.commits.reduce((a, b) => a + b) / numCommitDays
       let maxCommits = Math.max(10, 3.5 * avgCommitDay );
 
-      console.log(avgCommitDay);
-      console.log(maxCommits);
-        
       let bars = this.props.commits.map(
           (commits, index) => createBar(index, commits, maxCommits))
 
       return (
         <ScrollView
           ref={ (ref) => { this._scrollView = ref; }}
-          style={[styles.wrap, this.props.style, { opacity: (this.state.hidden) ? 0.0 : 1.0 }]}
+          style={[
+            styles.wrap,
+            this.props.style,
+            { opacity: (this.state.hidden) ? 0.0 :
+                       (this.props.netStatus == NetworkStates.Fetching) ? 0.5 :
+                       1.0 }]}
           contentContainerStyle={styles.wrapContentContainer}
           horizontal={true} >
           {bars}
@@ -120,8 +123,11 @@ let CommitHistoryGraph = React.createClass({
     }
   },
 
-  componentWillReceiveProps() {
-    this.setState({ hidden: true });
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.commits != this.props.commits) {
+      this.setState({ hidden: true });
+    }
   },
 
   componentDidUpdate() {
