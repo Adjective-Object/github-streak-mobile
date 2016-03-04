@@ -20,12 +20,15 @@ let CommitHistoryStore = Reflux.createStore({
       .then((commitHistory) => {
         if (commitHistory) {
           commitHistory = JSON.parse(commitHistory);
-          this.commits = commitHistory.commits;
-          this.userName = commitHistory.userName;
-          this.trigger({
-            commits: this.commits,
-            state: NetworkStates.Fetched,
-          });
+          console.log(commitHistory)
+          if (commitHistory.dateFetched === new Date().toDateString()) {
+            this.commits = commitHistory.commits;
+            this.userName = commitHistory.userName;
+            this.trigger({
+              commits: this.commits,
+              state: NetworkStates.Fetched,
+            });
+          }
         }
       })
       .catch((error) => {
@@ -67,6 +70,7 @@ let CommitHistoryStore = Reflux.createStore({
         AsyncStorage.setItem("commitHistory", JSON.stringify({
           userName: this.userName,
           commits: this.commits,
+          dateFetched: new Date().toDateString(),
         }));
 
         this.trigger({
