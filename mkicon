@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [[ $# -lt 1 ]]; then
+    echo "usage: ${0} <icon>"
+    exit 1
+fi
+
+convert -resize 72x72 -format png $1 android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+convert -resize 48x48 -format png $1 android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+convert -resize 96x96 -format png $1 android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+convert -resize 144x144 -format png $1 android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+

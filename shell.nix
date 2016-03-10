@@ -8,6 +8,8 @@ in with pkgs; let
         androidsdk
         gradle25
         openjdk
+
+        imagemagick
    ];
     
     dependencies = [
